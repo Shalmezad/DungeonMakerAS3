@@ -22,9 +22,7 @@ package
 					map.push(1);
 				}
 			}
-			digRect(new FlxRect(10, 10, 5, 5));
-			var wall:FlxPoint = findRoomWall();
-			map[wall.y * DUNGEON_WIDTH + wall.x] = 0;
+			digRect(new FlxRect(DUNGEON_WIDTH/2 - 2, DUNGEON_HEIGHT/2-2, 4, 4));
 			for (var a:int = 0; a < 25; a++) {
 				addCorridor();
 			}

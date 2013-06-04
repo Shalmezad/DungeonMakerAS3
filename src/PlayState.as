@@ -11,5 +11,15 @@ package
 			dm = new DungeonMap();
 			add(dm);
 		}
+		
+		override public function update():void
+		{
+			super.update();
+			if (FlxG.keys.justPressed("SPACE")) {
+				remove(dm);
+				dm = new DungeonMap();
+				add(dm);
+			}
+		}
 	}
 }
