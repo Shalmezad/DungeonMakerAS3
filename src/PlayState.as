@@ -6,7 +6,8 @@ package
 	{	
 		override public function create():void
 		{
-			add(new FlxText(0, 0, 100, "Hello"));
+			FlxG.bgColor = 0xffaaaaaa;
+			add(new DungeonMap());
 		}
 	}
 }
