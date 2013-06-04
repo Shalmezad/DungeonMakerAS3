@@ -4,10 +4,12 @@ package
  
 	public class PlayState extends FlxState
 	{	
+		private var dm:DungeonMap;
 		override public function create():void
 		{
 			FlxG.bgColor = 0xffaaaaaa;
-			add(new DungeonMap());
+			dm = new DungeonMap();
+			add(dm);
 		}
 	}
 }

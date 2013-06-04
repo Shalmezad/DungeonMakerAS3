@@ -25,6 +25,9 @@ package
 			digRect(new FlxRect(10, 10, 5, 5));
 			var wall:FlxPoint = findRoomWall();
 			map[wall.y * DUNGEON_WIDTH + wall.x] = 0;
+			for (var a:int = 0; a < 25; a++) {
+				addCorridor();
+			}
 		}
 		
 		private function digRect(rect:FlxRect):void
@@ -41,7 +44,7 @@ package
 			return map[y * DUNGEON_WIDTH + x];
 		}
 		
-		private function findRoomWall():FlxPoint
+		public function findRoomWall():FlxPoint
 		{
 			var wall:FlxPoint = new FlxPoint( -1, -1);
 			
@@ -87,6 +90,75 @@ package
 			//if it's passed so far, we're good to go.
 			return true;
 		}
+		
+		private function hasOpenSpace(check:FlxRect):Boolean
+		{
+			for (var x:int = check.x; x <= check.right; x++)
+			{
+				for (var y:int = check.y; y <= check.bottom; y++) {
+					if (getSquare(x, y) == 0) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		
+		private function addCorridor():void
+		{
+			//Alright, time to start digging.
+			//First, where are we starting?
+			var corStart:FlxPoint = findRoomWall();
+			//Alright, how big is the corridor?
+			var corridor:FlxRect = new FlxRect(corStart.x, corStart.y, 1, 1);
+			var corridorBounds:FlxRect = new FlxRect(corStart.x, corStart.y, 1, 1);
+			if (randomIntBetween(1, 2) == 1) {
+				//horizontal corridor
+				corridor.width = randomIntBetween(2, 6);
+				corridorBounds.y -= 1;
+				corridorBounds.height = 3;
+				//shift?
+				if (randomIntBetween(1, 2) == 1) {
+					corridor.x -= corridor.width-1;
+					corridorBounds.x -= corridor.width-1;
+				}
+				//is it legal?
+				if (!rectInBounds(corridorBounds)){
+					return;
+				}
+				//It's legal. 
+				//Is there any open spots?
+				if (hasOpenSpace(corridorBounds)) {
+					return;
+				}
+				
+				//Good to go, dig.
+				digRect(corridor);
+			}
+			else {
+				//vertical corridor
+				corridor.height = randomIntBetween(2, 6);
+				corridorBounds.x -= 1;
+				corridorBounds.width = 3;
+				//shift?
+				if (randomIntBetween(1, 2) == 1) {
+					corridor.y -= corridor.height-1;
+					corridorBounds.y -= corridor.height-1;
+				}
+				//is it legal?
+				if (!rectInBounds(corridorBounds)) {
+					return;
+				}
+				//Is there any open spots?
+				if (hasOpenSpace(corridorBounds)) {
+					return;
+				}
+				//Dig.
+				digRect(corridor);
+			}
+		}
+		
+		
 		
 		//http://stackoverflow.com/questions/5450897/as3-how-can-i-generate-a-random-number
 		private function randomIntBetween(min:int, max:int):int {
