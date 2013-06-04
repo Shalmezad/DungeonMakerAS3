@@ -65,6 +65,29 @@ package
 			return wall;
 		}
 		
+		private function rectInBounds(rect:FlxRect):Boolean
+		{
+			//verify x
+			if (rect.x < 0 || rect.x >= DUNGEON_WIDTH) {
+				return false;
+			}
+			//verify y
+			if (rect.y < 0 || rect.y >= DUNGEON_HEIGHT) {
+				return false;
+			}
+			//verify w
+			if (rect.right >= DUNGEON_WIDTH) {
+				return false;
+			}
+			//verify h
+			if (rect.bottom >= DUNGEON_HEIGHT) {
+				return false;
+			}
+			
+			//if it's passed so far, we're good to go.
+			return true;
+		}
+		
 		//http://stackoverflow.com/questions/5450897/as3-how-can-i-generate-a-random-number
 		private function randomIntBetween(min:int, max:int):int {
 			return Math.round(Math.random() * (max - min) + min);
