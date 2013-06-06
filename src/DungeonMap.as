@@ -23,8 +23,11 @@ package
 				}
 			}
 			digRect(new FlxRect(DUNGEON_WIDTH/2 - 2, DUNGEON_HEIGHT/2-2, 4, 4));
-			for (var a:int = 0; a < 25; a++) {
-				addCorridor();
+			for (var a:int = 0; a < 50; a++) {
+				for (var b:int = 0; b < 2; b++) {
+					addCorridor();
+				}
+				addRoom();
 			}
 		}
 		
@@ -156,6 +159,38 @@ package
 			}
 		}
 		
+		private function addRoom():void
+		{
+			//find a wall.
+			var roomStart:FlxPoint;
+			roomStart = findRoomWall();
+			//make the room rectangle
+			var roomRect:FlxRect = new FlxRect();
+			roomRect.x = roomStart.x;
+			roomRect.y = roomStart.y;
+			roomRect.width = randomIntBetween(2, 8);
+			roomRect.height = randomIntBetween(2, 8);
+			
+			//shift x?
+			if (randomIntBetween(1, 2) == 1) {
+				roomRect.x -= roomRect.width - 1;
+			}
+			//shift y?
+			if (randomIntBetween(1, 2) == 1) {
+				roomRect.y -= roomRect.height - 1;
+			}
+			
+			//Are we legal?
+			if (!rectInBounds(roomRect)) {
+				return;
+			}
+			//are there any open spots?
+			if (hasOpenSpace(roomRect)) {
+				return;
+			}
+			//good to go
+			digRect(roomRect);
+		}
 		
 		
 		//http://stackoverflow.com/questions/5450897/as3-how-can-i-generate-a-random-number
