@@ -7,6 +7,7 @@ package
 	{
 		public function Main()
 		{
+			FlxG.debug = true;
 			super(320,240,PlayState,2);
 		}
 	}

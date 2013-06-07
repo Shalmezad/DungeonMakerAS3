@@ -10,6 +10,8 @@ package
 			FlxG.bgColor = 0xffaaaaaa;
 			dm = new DungeonMap();
 			add(dm);
+			FlxG.watch(DungeonMap, "CORRIDORS_PER_ROOM", "Corridor ratio");
+			FlxG.watch(DungeonMap, "FEATURE_TRIES", "Feature tries");
 		}
 		
 		override public function update():void
@@ -20,6 +22,37 @@ package
 				dm = new DungeonMap();
 				add(dm);
 			}
+			
+			if (FlxG.keys.justPressed("Q")) {
+				remove(dm);
+				DungeonMap.CORRIDORS_PER_ROOM++;
+				dm = new DungeonMap();
+				add(dm);
+			}
+			if (FlxG.keys.justPressed("A")) {
+				remove(dm);
+				if(DungeonMap.CORRIDORS_PER_ROOM>1){
+					DungeonMap.CORRIDORS_PER_ROOM--;
+				}
+				dm = new DungeonMap();
+				add(dm);
+			}
+			
+			if (FlxG.keys.justPressed("W")) {
+				remove(dm);
+				DungeonMap.FEATURE_TRIES++;
+				dm = new DungeonMap();
+				add(dm);
+			}
+			if (FlxG.keys.justPressed("S")) {
+				remove(dm);
+				if(DungeonMap.FEATURE_TRIES>1){
+					DungeonMap.FEATURE_TRIES--;
+				}
+				dm = new DungeonMap();
+				add(dm);
+			}
+			
 		}
 	}
 }

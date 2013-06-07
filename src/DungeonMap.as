@@ -8,6 +8,9 @@ package
 		
 		private var map:Array;
 		
+		public static var FEATURE_TRIES:uint = 50;
+		public static var CORRIDORS_PER_ROOM:uint = 5;
+		
 		public function DungeonMap() 
 		{
 			initMap();	
@@ -23,8 +26,8 @@ package
 				}
 			}
 			digRect(new FlxRect(DUNGEON_WIDTH/2 - 2, DUNGEON_HEIGHT/2-2, 4, 4));
-			for (var a:int = 0; a < 50; a++) {
-				for (var b:int = 0; b < 5; b++) {
+			for (var a:int = 0; a < FEATURE_TRIES; a++) {
+				for (var b:int = 0; b < CORRIDORS_PER_ROOM; b++) {
 					addCorridor();
 				}
 				addRoom();
