@@ -3,13 +3,13 @@ package
 	import org.flixel.*;
 	public class DungeonMap extends FlxTilemap
 	{
-		private static const DUNGEON_WIDTH:uint = 40;
-		private static const DUNGEON_HEIGHT:uint = 30;
+		private static const DUNGEON_WIDTH:uint = 100;
+		private static const DUNGEON_HEIGHT:uint = 100;
 		
 		private var map:Array;
 		
-		public static var FEATURE_TRIES:uint = 50;
-		public static var CORRIDORS_PER_ROOM:uint = 5;
+		public static var FEATURE_TRIES:uint = 100;
+		public static var CORRIDORS_PER_ROOM:uint = 4;
 		
 		public function DungeonMap() 
 		{
@@ -67,6 +67,23 @@ package
 						wall.y = y;
 						return wall;
 					}
+				}
+			}
+			return wall;
+		}
+		
+		public function findEmptySpot():FlxPoint
+		{
+			var wall:FlxPoint = new FlxPoint( -1, -1);
+			
+			while(wall.x == -1){
+				//pick a point.
+				var x:int = randomIntBetween(1, DUNGEON_WIDTH - 2);
+				var y:int = randomIntBetween(1, DUNGEON_HEIGHT - 2);
+				if(getSquare(x,y) == 0){
+					wall.x = x;
+					wall.y = y;
+					return wall;
 				}
 			}
 			return wall;
