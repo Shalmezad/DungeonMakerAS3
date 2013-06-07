@@ -24,7 +24,7 @@ package
 			}
 			digRect(new FlxRect(DUNGEON_WIDTH/2 - 2, DUNGEON_HEIGHT/2-2, 4, 4));
 			for (var a:int = 0; a < 50; a++) {
-				for (var b:int = 0; b < 2; b++) {
+				for (var b:int = 0; b < 5; b++) {
 					addCorridor();
 				}
 				addRoom();
@@ -72,19 +72,19 @@ package
 		private function rectInBounds(rect:FlxRect):Boolean
 		{
 			//verify x
-			if (rect.x < 0 || rect.x >= DUNGEON_WIDTH) {
+			if (rect.x < 1 || rect.x >= DUNGEON_WIDTH-1) {
 				return false;
 			}
 			//verify y
-			if (rect.y < 0 || rect.y >= DUNGEON_HEIGHT) {
+			if (rect.y < 1 || rect.y >= DUNGEON_HEIGHT-1) {
 				return false;
 			}
 			//verify w
-			if (rect.right >= DUNGEON_WIDTH) {
+			if (rect.right >= DUNGEON_WIDTH-1) {
 				return false;
 			}
 			//verify h
-			if (rect.bottom >= DUNGEON_HEIGHT) {
+			if (rect.bottom >= DUNGEON_HEIGHT-1) {
 				return false;
 			}
 			
@@ -94,9 +94,9 @@ package
 		
 		private function hasOpenSpace(check:FlxRect):Boolean
 		{
-			for (var x:int = check.x; x <= check.right; x++)
+			for (var x:int = check.x; x < check.right; x++)
 			{
-				for (var y:int = check.y; y <= check.bottom; y++) {
+				for (var y:int = check.y; y < check.bottom; y++) {
 					if (getSquare(x, y) == 0) {
 						return true;
 					}
@@ -116,13 +116,16 @@ package
 			if (randomIntBetween(1, 2) == 1) {
 				//horizontal corridor
 				corridor.width = randomIntBetween(2, 6);
-				corridorBounds.y -= 1;
-				corridorBounds.height = 3;
 				//shift?
 				if (randomIntBetween(1, 2) == 1) {
 					corridor.x -= corridor.width-1;
-					corridorBounds.x -= corridor.width-1;
 				}
+				
+				corridorBounds.x = corridor.x;
+				corridorBounds.y = corridor.y - 1;
+				corridorBounds.width = corridor.width;
+				corridorBounds.height = 3;
+				
 				//is it legal?
 				if (!rectInBounds(corridorBounds)){
 					return;
@@ -141,10 +144,11 @@ package
 				corridor.height = randomIntBetween(2, 6);
 				corridorBounds.x -= 1;
 				corridorBounds.width = 3;
+				corridorBounds.height = corridor.height;
 				//shift?
 				if (randomIntBetween(1, 2) == 1) {
 					corridor.y -= corridor.height-1;
-					corridorBounds.y -= corridor.height-1;
+					corridorBounds.y -= corridorBounds.height-1;
 				}
 				//is it legal?
 				if (!rectInBounds(corridorBounds)) {
